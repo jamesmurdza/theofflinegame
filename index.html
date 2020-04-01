@@ -1,0 +1,174 @@
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, minimal-ui">
+
+<style>
+body {
+text-align: center;
+margin: 0;
+}
+.screen {
+display: none;
+}
+.image {
+margin: auto;
+}
+.image div {
+width: 100%;
+background-repeat: no-repeat;
+background-size: contain;
+}
+.appicon {
+padding-top: 100%;
+background: url('./img/icon-wifi.png');
+}
+.airplanemode {
+padding-top: 100%;
+background: url('./img/icon-airplanemode.png');
+}
+.success {
+padding-top: 100%;
+background: url('./img/icon-success-green.png');
+}
+.banner {
+padding-top: 22.6%;
+background: url('./img/logo-handwritten.svg');
+}
+p, a, h1, h2 {
+text-align: center;
+padding: 0em 1em 0.3em;
+text-transform: uppercase;
+font-family: 'Arial Narrow', Arial, Helvetica, sans-serif;
+line-height: 1.3;
+font-weight: bold;
+color: #777;
+font-size: 15pt;
+margin: 5px 0px;
+}
+a {
+text-decoration: none;
+color: #fff;
+background-color: #db0000;
+margin-top: 20px;
+padding: 0.7em 1em;
+font-size: 18pt;
+}
+h1, h2 {
+font-size: 24pt;
+color: #111;
+padding: 0em 1em 0em;
+}
+h2 {
+font-size: 22pt;
+}
+</style>
+
+</head>
+<body>
+
+<div class="screen" id="screen1">
+<div class="image" style="width:70%"><div class="appicon"></div></div>
+<div class="image" style="width:100%"><div class="banner"></div></div>
+<br />
+<p>12 people are offline right now, competing to see who can stay disconnected the longest. Up for the challenge?</p>
+<br />
+<a href="#" onclick="goToScreen(2); checkOffline()">Try it out</a>
+</div>
+
+<div class="screen" id="screen2">
+<div class="image" style="width:70%"><div class="airplanemode"></div></div>
+<br />
+<h2>Start Airplane Mode</h2>
+<p>We detect when you disconnect from the internet and start the timer.</p>
+</div>
+
+<div class="screen" id="screen3">
+<div class="image" style="width:70%"><div class="success"></div></div>
+<br />
+<p>You have been offline for</p>
+<h1><span id="count3">0 seconds</span></h1>
+<p>Keep this tab open to keep the timer going. Stay focused, and stay offline for as long as you can.</p>
+</div>
+
+<div class="screen" id="screen4">
+<p>You were offline for</p>
+<h2><span id="count4">0 seconds</span></h2>
+<p>Send your friends a screenshot to brag.</p>
+<br />
+<a href="#" onclick="goToScreen(1)">Try again.</a>
+</div>
+
+<script>
+
+var startTime = 0;
+var activeScreenN = 0;
+var activeScreen = null;
+var timer = null;
+
+function getScreen(n)
+{
+	return document.getElementById("screen" + n);
+}
+
+function goToScreen(n)
+{
+	if (activeScreen)
+	{
+		activeScreen.style.display = "none";
+	}
+	activeScreen = getScreen(n);
+	activeScreenN = n;
+	activeScreen.style.display = "block";
+}
+
+goToScreen(1);
+
+function updateTimer()
+{
+	var d = new Date();
+	var nSeconds = Math.round((d.getTime() - startTime)/1000);
+	timeString = nSeconds + " seconds";
+	document.getElementById("count3").innerHTML = timeString;
+	document.getElementById("count4").innerHTML = timeString;
+}
+
+function startTimer()
+{
+	var d = new Date();
+	startTime = d.getTime();
+	timer = setInterval(updateTimer, 1000);
+}
+
+function stopTimer()
+{
+	clearInterval(timer);	
+}
+
+function checkOffline(event)
+{
+	if (navigator.onLine)
+	{
+		if (activeScreenN == 3)
+		{
+			goToScreen(4);
+			stopTimer();
+		}
+	}
+	else
+	{
+		if (activeScreenN == 1 || activeScreenN == 2)
+		{
+			startTimer();
+			goToScreen(3);
+		}
+	}
+}
+
+window.addEventListener('online',  checkOffline);
+window.addEventListener('offline', checkOffline);
+
+</script>
+
+</body>
+</html>
