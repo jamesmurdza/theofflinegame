@@ -4,13 +4,27 @@
 <meta name="viewport" content="width=device-width, minimal-ui">
 
 <style>
+
+html {
+height: 100%;
+}
+
 body {
-text-align: center;
-max-width: 400px;
+margin: 0;
+max-height: 100%;
+background: url(./img/circle-hole.svg) no-repeat center center fixed;
+background-size: cover;
+height: 100%;
+}
+
+.container {
 margin: 0 auto;
+text-align: center;
+max-height: 100%;
 }
 .screen {
 display: none;
+position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width:320px;
 }
 .image {
 margin: auto;
@@ -40,6 +54,17 @@ background: url('./img/logo-handwritten.svg');
 padding-top: 24.2%;
 background: url('./img/banner-results.png');
 }
+.background-top {
+padding-top: 27.5%;
+background: url('./img/circle-top.svg');
+margin-bottom: -0%;
+}
+.background-bottom {
+padding-top: 27.5%;
+background: url('./img/circle-bottom.svg');
+position: static;
+bottom: 0;
+}
 p, a, h1, h2, b {
 text-align: center;
 padding: 0em 1em 0.3em;
@@ -56,8 +81,7 @@ display: inline-block;
 text-decoration: none;
 color: #fff;
 background-color: #db0000;
-/*margin: 20px 0;*/
-padding: 0.7em 1em;
+padding: 0.5em 1em;
 font-size: 18pt;
 }
 a.plain {
@@ -69,6 +93,7 @@ display: block;
 font-size: 24pt;
 color: #111;
 padding: 0em 1em 0em;
+margin: 0;
 }
 h2, b {
 font-size: 22pt;
@@ -89,12 +114,14 @@ display: none;
 </head>
 <body>
 
+<div class="container">
+
 <div id="preload">
 <img src="./img/icon-success-green.png" />
 </div>
 
-<div class="screen" id="screen1">
-<div class="image" style="width:70%"><div class="appicon"></div></div>
+<div class="screen" id="screen1" style="">
+<div class="image" style="width:60%"><div class="appicon"></div></div>
 <div class="image" style="width:100%"><div class="banner"></div></div>
 <br />
 <p id="welcomeText"></p>
@@ -121,6 +148,8 @@ display: none;
 <br />
 <a href="#" onclick="">Challenge friends</a><br />
 <a href="#" onclick="updateWelcomeText(); goToScreen(1)" class="plain">Try again</a>
+</div>
+
 </div>
 
 <script>
