@@ -290,8 +290,13 @@ var ID = function () {
 };
 
 function getLocalId() {
+    try {
     localStorage.clientId = localStorage.clientId || ID();
     return localStorage.clientId;
+    }
+    catch {
+        return "LOCAL";
+    }
 }
 
 function getReferralId() {
@@ -310,14 +315,28 @@ function getScore() {
 }
 
 function goToScore(score) {
+    try {
     localStorage.highScore = Math.max(parseInt(localStorage.highScore) || 0, score);
+    }
+    catch {
+        
+    }
    window.location.search = "?r="+getLocalId()+"&s="+score.toString(36);
 }
 
+function highScore() {
+    try {
+       return localStorage.highScore; 
+    }
+    catch {
+        return null;
+    }
+}
+
 function updateWelcomeText() {
-    if (localStorage.highScore)
+    if (highScore())
     {
-    document.getElementById("welcomeText").innerHTML = "Your best score was <b>" + formatDuration(localStorage.highScore) + "</b> Think you can do better?";
+    document.getElementById("welcomeText").innerHTML = "Your best score was <b>" + formatDuration(highScore()) + "</b> Think you can do better?";
     }
     else if (getScore())
     {
@@ -329,21 +348,28 @@ function updateWelcomeText() {
     }
 }
 
+function copyLinkToClipboard() {
+    copyTextToClipboard(window.location);
+    document.getElementById("challengeButton").innerHTML = "Copied to clipboard!";
+}
+
 function shareScore() {
     var didShare = false;
     if (navigator.share) {
   navigator.share({
-    title: 'web.dev',
-    text: 'Check out web.dev.',
+    title: 'The Offline Game',
+    text: 'I went offline for 1 hour and 33 minutes. Think you can do better? Prove it with the offline game.',
     url: window.location,
   })
-    .then(() => didShare = true) 
-    .catch((error) => console.log('Error sharing', error));
+    .then(() => console.log('Shared!')) 
+            .catch(function(error) {
+                console.log('Error sharing', error);
+                if (error.name !== "AbortError") { copyLinkToClipboard() };
+            });
 }
-if (!didShare)
+else
 {
-    copyTextToClipboard(window.location);
-    document.getElementById("challengeButton").innerHTML = "Copied to clipboard!";
+    copyLinkToClipboard();
 }
 }
 
