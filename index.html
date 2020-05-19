@@ -231,7 +231,7 @@ function updateUI()
     }
     else
     {
-        window.document.title = "Your best score was " + timeString;
+        window.document.title = "You were offline for " + timeString;
     }
 }
 
@@ -317,7 +317,7 @@ function goToScore(score) {
 function updateWelcomeText() {
     if (localStorage.highScore)
     {
-    document.getElementById("welcomeText").innerHTML = "You were offline for <b>" + formatDuration(localStorage.highScore) + "</b> Think you can do better?";
+    document.getElementById("welcomeText").innerHTML = "Your best score was <b>" + formatDuration(localStorage.highScore) + "</b> Think you can do better?";
     }
     else if (getScore())
     {
