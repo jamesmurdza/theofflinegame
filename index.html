@@ -1,6 +1,13 @@
 <html>
 <head>
 
+<script>
+// Force HTTPS
+if (location.protocol == 'http:') {
+    location.replace(`https:${location.href.substring(location.protocol.length)}`);
+}
+</script>
+
 <meta name="viewport" content="width=device-width, minimal-ui">
 
 <style>
@@ -224,7 +231,7 @@ function updateUI()
     }
     else
     {
-        window.document.title = "You were offline for " + timeString;
+        window.document.title = "Your best score was " + timeString;
     }
 }
 
