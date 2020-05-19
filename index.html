@@ -40,7 +40,7 @@ background: url('./img/logo-handwritten.svg');
 padding-top: 24.2%;
 background: url('./img/banner-results.png');
 }
-p, a, h1, h2 {
+p, a, h1, h2, b {
 text-align: center;
 padding: 0em 1em 0.3em;
 text-transform: uppercase;
@@ -64,12 +64,13 @@ a.plain {
 color: #000;
 background-color: transparent;
 }
-h1, h2 {
+h1, h2, b {
+display: block;
 font-size: 24pt;
 color: #111;
 padding: 0em 1em 0em;
 }
-h2 {
+h2, b {
 font-size: 22pt;
 }
 #preload {
@@ -96,7 +97,7 @@ display: none;
 <div class="image" style="width:70%"><div class="appicon"></div></div>
 <div class="image" style="width:100%"><div class="banner"></div></div>
 <br />
-<p>12 people are offline right now, competing to see who can stay disconnected the longest. Up for the challenge?</p>
+<p id="welcomeText"></p>
 <br />
 <a href="#" onclick="goToScreen(2); checkOffline()">Try it out</a>
 </div>
@@ -111,19 +112,15 @@ display: none;
 <div class="screen" id="screen3">
 <div class="image" style="width:70%"><div class="success"></div></div>
 <br />
-<p>You have been offline for</p>
-<h1><span id="count3">-</span></h1>
-<p>Keep this tab open to keep the timer going. Stay focused, and stay offline for as long as you can.</p>
+<p>You have been offline for <b><span id="count3">-</span></b>. Keep this tab open to keep the timer going. Stay focused, and stay offline for as long as you can.</p>
 </div>
 
 <div class="screen" id="screen4">
 <div class="image" style="width:100%"><div class="banner-results"></div></div>
-<p>You were offline for</p>
-<h2><span id="count4">-</span></h2>
-<p>Send your friends a screenshot to brag.</p>
+<p>You were offline for <b><span id="count4">-</span></b> Send your friends a screenshot to brag.</p>
 <br />
 <a href="#" onclick="">Challenge friends</a><br />
-<a href="#" onclick="goToScreen(1)" class="plain">Try again</a>
+<a href="#" onclick="updateWelcomeText(); goToScreen(1)" class="plain">Try again</a>
 </div>
 
 <script>
@@ -174,7 +171,7 @@ function formatDuration(duration) {
     if (hours == 0 && minutes == 0)
     {
         if (seconds == 1) outputstring += seconds + " second"; 
-        if (seconds > 1) outputstring += seconds + " seconds"; 
+        else outputstring += seconds + " seconds"; 
     }
 
     return outputstring;
@@ -207,6 +204,7 @@ function startTimer()
 	var d = new Date();
 	startTime = d.getTime();
 	timer = setInterval(updateTimer, 1000);
+    updateTimer();
 }
 
 function stopTimer()
@@ -276,7 +274,23 @@ function getScore() {
 }
 
 function goToScore(score) {
+    localStorage.highScore = Math.max(parseInt(localStorage.highScore) || 0, score);
    window.location.search = "?r="+getLocalId()+"&s="+score.toString(36);
+}
+
+function updateWelcomeText() {
+    if (localStorage.highScore)
+    {
+    document.getElementById("welcomeText").innerHTML = "You were offline for <b>" + formatDuration(localStorage.highScore) + "</b> Think you can do better?";
+    }
+    else if (getScore())
+    {
+    document.getElementById("welcomeText").innerHTML = "Your friend was offline for <b>" + formatDuration(getScore()) + "</b> Think you can do better?";
+    }
+    else
+    {
+    document.getElementById("welcomeText").innerHTML = "120 people are offline right now, competing to see who can stay disconnected the longest. Up for the challenge?";
+    }
 }
 
 window.addEventListener('online',  checkOffline);
@@ -289,6 +303,7 @@ if (!getReferralId() && getScore())
     goToScreen(4);
 }
 else {
+    updateWelcomeText();
     goToScreen(1);
 }
 
