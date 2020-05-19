@@ -329,6 +329,7 @@ function highScore() {
        return localStorage.highScore; 
     }
     catch {
+        if (getReferralId() == getLocalId()) return getScore();
         return null;
     }
 }
@@ -358,7 +359,7 @@ function shareScore() {
     if (navigator.share) {
   navigator.share({
     title: 'The Offline Game',
-    text: 'I went offline for 1 hour and 33 minutes. Think you can do better? Prove it with the offline game.',
+    text: 'I went offline for ' + formatDuration(nSeconds) + '. Think you can do better? Prove it with the offline game.',
     url: window.location,
   })
     .then(() => console.log('Shared!')) 
@@ -396,6 +397,7 @@ function fallbackCopyTextToClipboard(text) {
 
   document.body.removeChild(textArea);
 }
+
 function copyTextToClipboard(text) {
   if (!navigator.clipboard) {
     fallbackCopyTextToClipboard(text);
