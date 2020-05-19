@@ -333,9 +333,9 @@ function shareScore() {
     var didShare = false;
     if (navigator.share) {
   navigator.share({
-/*    title: 'web.dev',
+    title: 'web.dev',
     text: 'Check out web.dev.',
-    url: 'https://web.dev/',*/
+    url: window.location,
   })
     .then(() => didShare = true) 
     .catch((error) => console.log('Error sharing', error));
