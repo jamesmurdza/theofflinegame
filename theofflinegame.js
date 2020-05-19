@@ -179,7 +179,7 @@ function updateWelcomeText() {
     }
     else if (getScore())
     {
-        text = STR_FRIEND_SCORE.replace("%%",formatDuration(getScore()));
+        text = STR_LANDING_FRIEND.replace("%%",formatDuration(getScore()));
     }
     else
     {
