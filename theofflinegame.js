@@ -190,7 +190,7 @@ function updateWelcomeText() {
 
 function copyShareLinkToClipboard()
 {
-    copyTextToClipboard(window.location);
+    copyTextToClipboard(STR_SHARE_TEXT.replace("%%",formatDuration(nSeconds)) + " " + window.location);
     document.getElementById("challengeButton").innerHTML = STR_COPY;
 }
 
