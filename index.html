@@ -6,7 +6,8 @@
 <style>
 body {
 text-align: center;
-margin: 0;
+max-width: 400px;
+margin: 0 auto;
 }
 .screen {
 display: none;
@@ -35,6 +36,10 @@ background: url('./img/icon-success-green.png');
 padding-top: 22.6%;
 background: url('./img/logo-handwritten.svg');
 }
+.banner-results {
+padding-top: 24.2%;
+background: url('./img/banner-results.png');
+}
 p, a, h1, h2 {
 text-align: center;
 padding: 0em 1em 0.3em;
@@ -47,12 +52,17 @@ font-size: 15pt;
 margin: 5px 0px;
 }
 a {
+display: inline-block;
 text-decoration: none;
 color: #fff;
 background-color: #db0000;
-margin-top: 20px;
+/*margin: 20px 0;*/
 padding: 0.7em 1em;
 font-size: 18pt;
+}
+a.plain {
+color: #000;
+background-color: transparent;
 }
 h1, h2 {
 font-size: 24pt;
@@ -107,11 +117,13 @@ display: none;
 </div>
 
 <div class="screen" id="screen4">
+<div class="image" style="width:100%"><div class="banner-results"></div></div>
 <p>You were offline for</p>
 <h2><span id="count4">-</span></h2>
 <p>Send your friends a screenshot to brag.</p>
 <br />
-<a href="#" onclick="goToScreen(1)">Try again.</a>
+<a href="#" onclick="">Challenge friends</a><br />
+<a href="#" onclick="goToScreen(1)" class="plain">Try again</a>
 </div>
 
 <script>
